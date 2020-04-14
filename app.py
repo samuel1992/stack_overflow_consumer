@@ -1,6 +1,6 @@
 import sys
 
-from stackoverflow import StackOverFlow
+from stackoverflow.stackoverflow import StackOverFlow
 
 def main():
     text_to_search = sys.argv[0]
