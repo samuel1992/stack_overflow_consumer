@@ -2,6 +2,7 @@ import requests
 
 STACKOVERFLOW_SITE = 'stackoverflow.com'
 NO_CONTENT_MESSAGE = 'there is no content for this response'
+OK_CODES = [200, 201, 202]
 
 class ApiResponseError(Exception):
     def __init__(self, message):
@@ -11,8 +12,7 @@ class ApiRequest:
     """ Classs to interact with stack overflow api
     """
     _base_url = 'https://api.stackexchange.com'
-#            '/search/advanced?site=stackoverflow.com&q'
-    _service =  'search'
+    _service = 'search'
     _resource = 'advanced'
     _method = 'get'
 
@@ -39,13 +39,13 @@ class ApiResponse:
 
     @property
     def body(self):
-        if  self._http_status_code != requests.codes.ok:
+        if  self._http_status_code not in OK_CODES:
             raise ApiResponseError(NO_CONTENT_MESSAGE)
 
         return self._body.get('items', [])
 
-class StackOverFlowApi:
-    def search(self, text):
+class StackOverFlow:
+    def search(self, text=None):
         params = {'site': STACKOVERFLOW_SITE, 'q': text}
         response = ApiRequest(params).send()
 
